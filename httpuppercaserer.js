@@ -54,3 +54,31 @@
 
 //         file: ///home/ubuntu/.nvm/versions/node/v4.3.2/lib/node_modules/learnyounod  
 //         e / docs / through2 - map.html
+
+const http = require('http');
+const map = require('through2-map');
+
+var server = http.createServer(function callback(request, response) {
+
+    request.pipe(map(function(chunk) {
+        return chunk.toString().toUpperCase();
+    })).pipe(response);
+
+});
+server.listen(process.argv[2]);
+
+// learnyounode suggested solution:
+
+// var http = require('http')
+// var map = require('through2-map')
+
+// var server = http.createServer(function(req, res) {
+//     if (req.method != 'POST')
+//         return res.end('send me a POST\n')
+
+//     req.pipe(map(function(chunk) {
+//         return chunk.toString().toUpperCase()
+//     })).pipe(res)
+// })
+
+// server.listen(Number(process.argv[2]))

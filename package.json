@@ -9,7 +9,8 @@
     "async": "^0.2.10",
     "bl": "^1.1.2",
     "express": "^3.2.6",
-    "socket.io": "^0.9.17"
+    "socket.io": "^0.9.17",
+    "through2-map": "^2.0.0"
   },
   "devDependencies": {},
   "scripts": {
