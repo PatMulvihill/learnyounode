@@ -69,3 +69,81 @@
 //  Date().toISOString().It can also parse this format
 //  if you pass the string
 //  into the Date constructor.Date# getTime() will also come in handy.
+
+const http = require('http');
+const url = require('url');
+
+var server = http.createServer(function callback(request, response) {
+    response.writeHead(200, {
+        'Content-Type': 'application/json'
+    });
+    var urlObj = url.parse(request.url, true);
+    if (urlObj.pathname == "/api/parsetime") {
+        var time = urlObj.query.iso;
+        var thisDate = new Date(time);
+        var dateObj = {
+            "hour": thisDate.getHours(),
+            "minute": thisDate.getMinutes(),
+            "second": thisDate.getSeconds()
+        };
+        response.end(JSON.stringify(dateObj));
+    }
+    else if (urlObj.pathname == '/api/unixtime') {
+        //console.log(urlObj)
+        var time = urlObj.query.iso;
+        var thisDate = new Date(time);
+        var dateObj = {
+            "unixtime": thisDate.getTime()
+        };
+        response.end(JSON.stringify(dateObj));
+
+
+    }
+    else {
+        response.end("suck a fat one");
+    }
+
+});
+server.listen(process.argv[2]);
+
+// learnyounode suggested solution: 
+
+// var http = require('http')
+// var url = require('url')
+
+// function parsetime(time) {
+//     return {
+//         hour: time.getHours(),
+//         minute: time.getMinutes(),
+//         second: time.getSeconds()
+//     }
+// }
+
+// function unixtime(time) {
+//     return {
+//         unixtime: time.getTime()
+//     }
+// }
+
+// var server = http.createServer(function(req, res) {
+//     var parsedUrl = url.parse(req.url, true)
+//     var time = new Date(parsedUrl.query.iso)
+//     var result
+
+//     if (/^\/api\/parsetime/.test(req.url))
+//         result = parsetime(time)
+//     else if (/^\/api\/unixtime/.test(req.url))
+//         result = unixtime(time)
+
+//     if (result) {
+//         res.writeHead(200, {
+//             'Content-Type': 'application/json'
+//         })
+//         res.end(JSON.stringify(result))
+//     }
+//     else {
+//         res.writeHead(404)
+//         res.end()
+//     }
+// })
+// server.listen(Number(process.argv[2]))
